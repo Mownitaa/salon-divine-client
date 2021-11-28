@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import logo from './logo.png';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 
 const Navigation = () => {
@@ -21,7 +21,9 @@ const Navigation = () => {
                         <Link to="/"> <img style={{ width: '4%' }} src={logo} alt="" /></Link>
 
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <NavLink to="/login">
+                        <Button color="inherit">Login</Button>
+                    </NavLink>
                 </Toolbar>
             </AppBar>
         </Box>
