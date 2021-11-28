@@ -2,10 +2,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import assistant from './assistant.png';
-// import appointmentBanner from './appointmentBanner.png';
 import { Button, Typography } from '@mui/material';
 
-// const appointmentBanner = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXOaj2IB5w_5rGVMS4PvlGovRgMKCXjML1bw&usqp=CAU";
 const appointmentBanner = "https://www.simplysolved.ae/wp-content/uploads/2019/07/beuhair-interior-3-min-cropped.jpg";
 const appointmentBg = {
     background: `url(${appointmentBanner})`,

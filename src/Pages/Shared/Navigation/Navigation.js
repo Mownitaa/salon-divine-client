@@ -18,8 +18,9 @@ const Navigation = () => {
                     <Link to="/appointment">Appointment</Link>
 
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <Link to="/"> <img style={{ width: '4%' }} src={logo} alt="" /></Link>
-
+                        <Link to="/"> <img style={{ width: '4%' }} src={logo} alt="" />
+                        </Link>
+                        <p style={{ fontSize: 11, color: 'black', marginTop: '-10px' }}>Salon-Divine</p>
                     </Typography>
                     <NavLink to="/login">
                         <Button color="inherit">Login</Button>
