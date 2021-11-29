@@ -1,12 +1,16 @@
-import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 import Navigation from '../../Shared/Navigation/Navigation';
 
 const Login = () => {
 
     const [loginData, setLoginData] = useState({})
+    const { user, loginUser, isLoading, authError } = useAuth();
 
+    const location = useLocation();
+    const history = useHistory();
 
     const loginImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9kkqyYKjusj3MLTd7ep505_5Fk6HUt32x0IKCH0ze8sPve09UJq4JoFbL1HCt_6R6KXw&usqp=CAU"
 
@@ -31,7 +35,7 @@ const Login = () => {
     }
 
     const handleLoginSubmit = e => {
-        alert('Log in successfull');
+        loginUser(loginData.email, loginData.password, location, history);
         e.preventDefault();
     }
     return (
@@ -66,15 +70,21 @@ const Login = () => {
                                 onChange={handleOnChange}
                             />
 
-                            <Button sx={{ mt: 2, ml: 1, px: 2, bgcolor: '#FCE8CF', color: '#11A7EF', width: '40%' }} variant="outlined">Submit</Button>
+                            <Button sx={{ mt: 2, ml: 1, px: 2, bgcolor: '#FCE8CF', color: '#11A7EF', width: '40%' }}
+                                type="submit" variant="outlined">Login</Button>
+                            <Typography style={{ color: 'white' }}
+                                sx={{ mt: 6 }}
+                                variant="h6">
+                                New to Salon-Divine? Please
+                                <NavLink style={{ color: '#f2cb9b' }} to="/register"> Register</NavLink>
+                            </Typography>
                         </form>
-                        <Typography style={{ color: 'white' }}
-                            sx={{ mt: 6 }}
-                            variant="h6">
-                            New to Salon-Divine? Please <span>
-                                <Link style={{ color: '#f2cb9b' }} to="/register"> Register</Link>
-                            </span>
-                        </Typography>
+
+                        {isLoading && <CircularProgress />}
+                        {user?.email && <Alert severity="success">Login Successful!</Alert>}
+
+                        {authError && <Alert severity="error">{authError}</Alert>}
+
                     </Grid>
                 </Grid>
             </Container>
