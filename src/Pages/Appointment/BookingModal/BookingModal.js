@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { Button, TextField } from '@mui/material';
+import useAuth from '../../../hooks/useAuth';
 
 const style = {
     position: 'absolute',
@@ -21,6 +22,18 @@ const style = {
 const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
 
     const { name, img, time } = booking;
+    const { user } = useAuth();
+    const initialInfo = { name: user.displayName, email: user.email, phone: '' };
+    const [bookingInfo, setBookingInfo] = useState(initialInfo);
+
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newInfo = { ...bookingInfo };
+        newInfo[field] = value;
+        console.log(newInfo);
+        setBookingInfo(newInfo);
+    }
 
     const handleBookingSubmit = e => {
         alert('Submitting');
@@ -52,9 +65,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
                         variant="h4" id="transition-modal-description" sx={{ mt: 2 }}>
                         {name}
                     </Typography>
-                    {/* <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                        {time}
-                    </Typography> */}
+
                     <form onSubmit={handleBookingSubmit}>
                         <TextField
                             disabled
@@ -66,18 +77,24 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
                         <TextField
                             sx={{ width: '90%', m: 1 }}
                             id="outlined-size-small"
-                            label='Your Name'
+                            name="name"
+                            onBlur={handleOnBlur}
+                            defaultValue={user.displayName}
                             size="small"
                         />
                         <TextField
                             sx={{ width: '90%', m: 1 }}
                             id="outlined-size-small"
-                            label='Your Email'
+                            name="email"
+                            onBlur={handleOnBlur}
+                            defaultValue={user.email}
                             size="small"
                         />
                         <TextField
                             sx={{ width: '90%', m: 1 }}
                             id="outlined-size-small"
+                            name="phone"
+                            onBlur={handleOnBlur}
                             label='Phone Number'
                             size="small"
                         />

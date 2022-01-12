@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import Navigation from '../../Shared/Navigation/Navigation';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 
 const Register = () => {
 
     const [loginData, setLoginData] = useState({});
+    const history = useHistory();
     const { user, registerUser, isLoading, authError } = useAuth();
 
 
@@ -24,11 +25,12 @@ const Register = () => {
         marginTop: 35
     }
 
-    const handleOnChange = e => {
+    const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
         const newLoginData = { ...loginData };
         newLoginData[field] = value;
+        // console.log(newLoginData);
         setLoginData(newLoginData);
     }
 
@@ -39,7 +41,7 @@ const Register = () => {
             return
         }
         // alert('Registered successfully');
-        registerUser(loginData.email, loginData.password);
+        registerUser(loginData.email, loginData.password, loginData.name, history);
         e.preventDefault();
     }
     return (
@@ -52,9 +54,20 @@ const Register = () => {
                             <img style={{ width: '15%' }} src={loginImg} alt="" />
                         </Typography>
                         <Typography style={{ fontSize: 46, fontWeight: 600, color: '#01A7EF' }} variant="body1" gutterBottom>Register!!!</Typography>
+                        {isLoading && <CircularProgress />}
+                        {user?.email && <Alert severity="success"> User created successfully!</Alert>}
 
+                        {authError && <Alert severity="error">{authError}</Alert>}
                         {!isLoading && <form onSubmit={handleLoginSubmit}>
 
+                            <TextField
+                                sx={{ width: '70%', m: 1 }}
+                                style={{ backgroundColor: 'white' }}
+                                id="standard-basic"
+                                label='Your Name'
+                                name="name"
+                                onBlur={handleOnBlur}
+                            />
                             <TextField
                                 sx={{ width: '70%', m: 1 }}
                                 style={{ backgroundColor: 'white' }}
@@ -62,7 +75,7 @@ const Register = () => {
                                 label='Your Email'
                                 name="email"
                                 type="email"
-                                onChange={handleOnChange}
+                                onBlur={handleOnBlur}
                             />
                             <TextField
                                 sx={{ width: '70%', m: 1 }}
@@ -71,7 +84,7 @@ const Register = () => {
                                 label='Enter Password'
                                 type="password"
                                 name="password1"
-                                onChange={handleOnChange}
+                                onBlur={handleOnBlur}
                             />
                             <TextField
                                 sx={{ width: '70%', m: 1 }}
@@ -80,22 +93,11 @@ const Register = () => {
                                 label='Re-enter Password'
                                 type="password"
                                 name="password2"
-                                onChange={handleOnChange}
+                                onBlur={handleOnBlur}
                             />
                             <Button sx={{ mt: 2, ml: 1, px: 2, bgcolor: '#FCE8CF', color: '#11A7EF', width: '40%' }}
                                 type="submit"
                                 variant="outlined">Register</Button>
-
-
-                            {/* already have account */}
-
-                            {/* <NavLink
-                                style={{ textDecoration: 'none' }}
-                                to="/login">
-                                <Button variant="text">
-                                    Already Registered? Please Login</Button>
-                            </NavLink> */}
-
 
                             <Typography style={{ color: 'white' }}
                                 sx={{ mt: 6 }}
@@ -104,10 +106,7 @@ const Register = () => {
                                 <NavLink style={{ color: '#f2cb9b' }} to="/login"> Login</NavLink>
                             </Typography>
                         </form>}
-                        {isLoading && <CircularProgress />}
-                        {user?.email && <Alert severity="success"> User created successfully!</Alert>}
 
-                        {authError && <Alert severity="error">{authError}</Alert>}
                     </Grid>
                 </Grid>
             </Container>

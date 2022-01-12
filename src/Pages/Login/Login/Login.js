@@ -7,7 +7,7 @@ import Navigation from '../../Shared/Navigation/Navigation';
 const Login = () => {
 
     const [loginData, setLoginData] = useState({})
-    const { user, loginUser, isLoading, authError } = useAuth();
+    const { user, loginUser, signInWithGoogle, isLoading, authError } = useAuth();
 
     const location = useLocation();
     const history = useHistory();
@@ -38,6 +38,11 @@ const Login = () => {
         loginUser(loginData.email, loginData.password, location, history);
         e.preventDefault();
     }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(location, history)
+    }
+
     return (
         <>
             <Navigation></Navigation>
@@ -48,6 +53,12 @@ const Login = () => {
                             <img style={{ width: '15%' }} src={loginImg} alt="" />
                         </Typography>
                         <Typography style={{ fontSize: 46, fontWeight: 600, color: '#01A7EF' }} variant="body1" gutterBottom>Login!!!</Typography>
+
+
+                        {isLoading && <CircularProgress />}
+                        {user?.email && <Alert severity="success">Login Successful!</Alert>}
+
+                        {authError && <Alert severity="error">{authError}</Alert>}
 
                         <form onSubmit={handleLoginSubmit}>
 
@@ -79,11 +90,10 @@ const Login = () => {
                                 <NavLink style={{ color: '#f2cb9b' }} to="/register"> Register</NavLink>
                             </Typography>
                         </form>
-
-                        {isLoading && <CircularProgress />}
-                        {user?.email && <Alert severity="success">Login Successful!</Alert>}
-
-                        {authError && <Alert severity="error">{authError}</Alert>}
+                        <Typography style={{ color: 'white', fontWeight: 600 }} variant="h5">OR</Typography>
+                        <Button sx={{ mt: 2, ml: 1, px: 2, bgcolor: '#FCE8CF', color: '#11A7EF', width: '40%' }}
+                            onClick={handleGoogleSignIn}
+                            type="submit" variant="outlined">Google Sign In</Button>
 
                     </Grid>
                 </Grid>

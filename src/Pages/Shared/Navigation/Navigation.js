@@ -17,7 +17,7 @@ const Navigation = () => {
             <AppBar style={{ background: '#FCE8CF' }} position="static">
                 <Toolbar>
 
-                    <Link style={{ textDecoration: 'none', color: '#000', fontSize: 20 }} to="/appointment">Appointment</Link>
+                    <Link style={{ textDecoration: 'none', color: '#d64051 ', fontWeight: 500, fontSize: 20 }} to="/appointment">Appointment</Link>
 
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link to="/"> <img style={{ width: '4%' }} src={logo} alt="" />
@@ -26,11 +26,11 @@ const Navigation = () => {
                     </Typography>
                     {
                         user?.email ?
-                            <Button onClick={logout} color="inherit">Logout</Button>
+                            <Button style={{ color: '#d64051', fontSize: 20 }} onClick={logout} color="inherit">Logout</Button>
                             :
                             <NavLink style={{ textDecoration: 'none' }} to="/login">
                                 <Button
-                                    style={{ color: '#000', fontSize: 20 }}
+                                    style={{ color: '#d64051', fontSize: 20 }}
                                 >Login</Button>
                             </NavLink>
                     }
